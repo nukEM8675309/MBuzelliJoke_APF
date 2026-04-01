@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤡 April Fools Chaos 🤡</title>
+    <title>🤡 April Fools - Chaos Overload 🤡</title>
     <style>
         * {
             margin: 0;
@@ -18,6 +18,7 @@
             --neon-green: #00ff00;
             --neon-yellow: #ffff00;
             --neon-orange: #ff6600;
+            --neon-red: #ff0000;
         }
 
         body {
@@ -29,6 +30,45 @@
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        /* ========== CHAOS OVERLOAD EFFECTS ========== */
+        .chaos-overload {
+            animation: overloadShake 0.3s infinite, invertColors 0.15s infinite;
+        }
+
+        .chaos-overload .lava-blob {
+            animation: overloadBlob 0.2s infinite !important;
+        }
+
+        .chaos-overload .title {
+            animation: overloadText 0.1s infinite !important;
+        }
+
+        @keyframes overloadShake {
+            0% { transform: translate(5px, 5px); }
+            25% { transform: translate(-5px, -5px); }
+            50% { transform: translate(5px, -5px); }
+            75% { transform: translate(-5px, 5px); }
+            100% { transform: translate(5px, 5px); }
+        }
+
+        @keyframes invertColors {
+            0% { filter: invert(0) hue-rotate(0deg); }
+            50% { filter: invert(1) hue-rotate(180deg); }
+            100% { filter: invert(0) hue-rotate(0deg); }
+        }
+
+        @keyframes overloadBlob {
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.5) translate(20px, -20px); }
+            100% { transform: scale(1) translate(0, 0); }
+        }
+
+        @keyframes overloadText {
+            0% { transform: scale(1) rotate(0deg); color: transparent; -webkit-text-stroke: 2px var(--neon-pink); }
+            50% { transform: scale(1.1) rotate(2deg); color: var(--neon-yellow); -webkit-text-stroke: 2px var(--neon-red); }
+            100% { transform: scale(1) rotate(0deg); color: transparent; -webkit-text-stroke: 2px var(--neon-pink); }
         }
 
         /* ========== LAVA LAMP BACKGROUND ========== */
@@ -213,7 +253,6 @@
             flex-direction: column;
         }
 
-        /* REVERSED IMAGE ON BACK */
         .card-back img {
             position: absolute;
             width: 100%;
@@ -278,6 +317,19 @@
             height: 50px;
             border-color: var(--neon-yellow);
             box-shadow: 0 0 30px var(--neon-yellow);
+        }
+
+        .cursor.overload {
+            width: 80px;
+            height: 80px;
+            border-color: var(--neon-red);
+            box-shadow: 0 0 50px var(--neon-red);
+            animation: cursorSpin 0.5s linear infinite;
+        }
+
+        @keyframes cursorSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         /* ========== PARTICLES ========== */
@@ -347,7 +399,7 @@
             50% { opacity: 1; }
         }
 
-        /* ========== CHAOS INDICATOR ========== */
+        /* ========== CHAOS METER ========== */
         .chaos-meter {
             position: fixed;
             top: 20px;
@@ -360,18 +412,54 @@
 
         .chaos-bar {
             width: 150px;
-            height: 20px;
-            border: 2px solid var(--neon-green);
+            height: 25px;
+            border: 3px solid var(--neon-green);
             border-radius: 10px;
             margin-top: 5px;
             overflow: hidden;
+            background: #000;
         }
 
         .chaos-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--neon-green), var(--neon-yellow), var(--neon-pink));
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-yellow), var(--neon-pink), var(--neon-red));
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .chaos-fill.overload {
+            animation: overloadFill 0.2s infinite;
+        }
+
+        @keyframes overloadFill {
+            0% { box-shadow: 0 0 20px var(--neon-red); }
+            50% { box-shadow: 0 0 50px var(--neon-yellow); }
+            100% { box-shadow: 0 0 20px var(--neon-red); }
+        }
+
+        .overload-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: var(--neon-red);
+            text-shadow: 0 0 30px var(--neon-red);
+            z-index: 300;
+            pointer-events: none;
+            opacity: 0;
+            text-align: center;
+        }
+
+        .overload-warning.show {
+            animation: warningFlash 0.5s ease-out;
+        }
+
+        @keyframes warningFlash {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
         }
     </style>
 </head>
@@ -387,6 +475,9 @@
 
     <!-- Lightning Effects -->
     <div class="lightning-overlay" id="lightningOverlay"></div>
+
+    <!-- Overload Warning -->
+    <div class="overload-warning" id="overloadWarning">⚠️ CHAOS OVERLOAD ⚠️</div>
 
     <!-- Title -->
     <h1 class="title">April Fools</h1>
@@ -417,7 +508,7 @@
         </div>
     </div>
 
-    <p class="instruction">⚡ Move mouse for lava effect • Click image for LIGHTNING ⚡</p>
+    <p class="instruction">⚡ Move mouse for lava effect • Click image for LIGHTNING • Fill meter for OVERLOAD ⚡</p>
 
     <script>
         const card = document.getElementById('card');
@@ -427,6 +518,7 @@
         const lavaContainer = document.getElementById('lavaContainer');
         const lavaBlobs = document.querySelectorAll('.lava-blob');
         const chaosFill = document.getElementById('chaosFill');
+        const overloadWarning = document.getElementById('overloadWarning');
         const scene = document.querySelector('.scene');
 
         // State
@@ -439,6 +531,7 @@
         let isFlipped = false;
         let chaosLevel = 0;
         let particleCount = 0;
+        let isInOverload = false;
         const MAX_PARTICLES = 80;
 
         // Smooth Animation Loop
@@ -458,9 +551,9 @@
                 blob.style.transform = `translate(${xOffset}, ${yOffset}) scale(${1 + Math.sin(Date.now() / 1000 + index) * 0.2})`;
             });
 
-            // Decay chaos level slowly
-            if (chaosLevel > 0) {
-                chaosLevel -= 0.5;
+            // Decay chaos level slowly (slower in overload)
+            if (chaosLevel > 0 && !isInOverload) {
+                chaosLevel -= 0.3;
                 chaosFill.style.width = Math.max(0, chaosLevel) + '%';
             }
 
@@ -495,17 +588,21 @@
             }
         });
 
-        // Click on Card - LIGHTNING STRIKE!
+        // Click on Card
         scene.addEventListener('click', (e) => {
             isFlipped = !isFlipped;
-            chaosLevel = Math.min(chaosLevel + 25, 100);
-            chaosFill.style.width = chaosLevel + '%';
+            
+            // Add chaos
+            if (!isInOverload) {
+                chaosLevel = Math.min(chaosLevel + 25, 100);
+                chaosFill.style.width = chaosLevel + '%';
+            }
 
             // Cursor feedback
             cursor.classList.add('active');
             setTimeout(() => cursor.classList.remove('active'), 200);
 
-            // Lightning flash
+            // Lightning
             triggerLightning(e.clientX, e.clientY);
 
             // Explosion particles
@@ -521,7 +618,52 @@
                     createSparkRing(e.clientX, e.clientY);
                 }, i * 150);
             }
+
+            // Check for overload
+            if (chaosLevel >= 100 && !isInOverload) {
+                triggerOverloadMode();
+            }
         });
+
+        // Trigger OVERLOAD MODE
+        function triggerOverloadMode() {
+            isInOverload = true;
+            chaosFill.classList.add('overload');
+            cursor.classList.add('overload');
+            
+            // Show warning
+            overloadWarning.classList.add('show');
+            setTimeout(() => overloadWarning.classList.remove('show'), 500);
+
+            // RAPID LIGHTNING STORM
+            let overloadCount = 0;
+            const maxOverload = 30; // 30 lightning strikes
+            
+            const overloadInterval = setInterval(() => {
+                triggerLightning();
+                
+                // Create extra particles
+                createParticle(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+                
+                overloadCount++;
+                chaosLevel -= 3.3; // Drain chaos
+                chaosFill.style.width = Math.max(0, chaosLevel) + '%';
+
+                if (overloadCount >= maxOverload || chaosLevel <= 0) {
+                    clearInterval(overloadInterval);
+                    endOverloadMode();
+                }
+            }, 100);
+        }
+
+        // End Overload Mode
+        function endOverloadMode() {
+            isInOverload = false;
+            chaosFill.classList.remove('overload');
+            cursor.classList.remove('overload');
+            chaosLevel = 0;
+            chaosFill.style.width = '0%';
+        }
 
         // Lightning Function
         function triggerLightning(x, y) {
@@ -572,7 +714,8 @@
                 'var(--neon-blue)',
                 'var(--neon-green)',
                 'var(--neon-yellow)',
-                'var(--neon-orange)'
+                'var(--neon-orange)',
+                'var(--neon-red)'
             ];
             particle.style.background = colors[Math.floor(Math.random() * colors.length)];
 
@@ -610,9 +753,9 @@
             targetRotY = 0;
         });
 
-        // Random ambient lightning at high chaos
+        // Random ambient lightning at high chaos (but not in overload)
         setInterval(() => {
-            if (chaosLevel > 50 && Math.random() > 0.7) {
+            if (chaosLevel > 50 && !isInOverload && Math.random() > 0.7) {
                 triggerLightning();
             }
         }, 2000);
