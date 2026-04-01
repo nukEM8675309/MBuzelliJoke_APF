@@ -3,27 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>April Fools! 🎭</title>
+    <title>CHAOS MODE: April Fools</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none; /* Hide default cursor for custom one */
         }
 
         body {
             min-height: 100vh;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dfe6e9);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial Black', sans-serif;
+            perspective: 1000px; /* Essential for 3D effects */
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.active {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ff00de;
+        }
+
+        /* Mouse Trail Particles */
+        .trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 9998;
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                transform: scale(0);
+                opacity: 0;
+            }
         }
 
         .container {
@@ -31,289 +66,308 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             position: relative;
             z-index: 10;
         }
 
+        /* Crazy Text */
         .title {
-            font-size: 5rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 0 20px rgba(255,255,255,0.8),
-                         0 0 40px rgba(255,255,255,0.6),
-                         0 0 60px rgba(255,255,255,0.4);
-            animation: titleFloat 3s ease-in-out infinite, 
-                       titleGlow 2s ease-in-out infinite alternate;
-            margin-bottom: 50px;
-            text-align: center;
-            letter-spacing: 5px;
-        }
-
-        @keyframes titleFloat {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-30px) rotate(2deg); }
-        }
-
-        @keyframes titleGlow {
-            0% { text-shadow: 0 0 20px rgba(255,255,255,0.8); }
-            100% { text-shadow: 0 0 50px rgba(255,255,255,1), 0 0 100px rgba(255,255,255,0.8); }
-        }
-
-        .image-container {
-            perspective: 1000px;
-            margin: 30px;
-        }
-
-        .flip-image {
-            width: 400px;
-            height: 400px;
+            font-size: 6rem;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255,255,255,0.8);
             position: relative;
-            transform-style: preserve-3d;
-            animation: flipRotate 4s ease-in-out infinite,
-                       floatImage 3s ease-in-out infinite;
-            cursor: pointer;
-            transition: transform 0.5s ease;
-        }
-
-        .flip-image:hover {
-            animation: flipRotate 2s ease-in-out infinite,
-                       floatImage 2s ease-in-out infinite;
-        }
-
-        @keyframes flipRotate {
-            0% { transform: rotateY(0deg) rotateX(0deg); }
-            25% { transform: rotateY(180deg) rotateX(10deg); }
-            50% { transform: rotateY(360deg) rotateX(0deg); }
-            75% { transform: rotateY(540deg) rotateX(-10deg); }
-            100% { transform: rotateY(720deg) rotateX(0deg); }
-        }
-
-        @keyframes floatImage {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateY(180deg); }
-        }
-
-        .flip-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3),
-                        0 0 40px rgba(255,255,255,0.5);
-            position: absolute;
-            backface-visibility: hidden;
-        }
-
-        .confetti {
-            position: fixed;
-            width: 15px;
-            height: 15px;
-            background-color: #f00;
-            animation: confettiFall linear infinite;
-            top: -20px;
-            z-index: 1;
-            border-radius: 3px;
-        }
-
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(0) rotate(0deg) translateX(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg) translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        .floating-shapes {
-            position: fixed;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: floatShape 20s ease-in-out infinite;
-            z-index: 0;
-        }
-
-        @keyframes floatShape {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(100px, 100px) rotate(90deg); }
-            50% { transform: translate(0, 200px) rotate(180deg); }
-            75% { transform: translate(-100px, 100px) rotate(270deg); }
-        }
-
-        .wave-text {
-            animation: waveText 2s ease-in-out infinite;
-            display: inline-block;
-        }
-
-        @keyframes waveText {
-            0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(1.2); }
-        }
-
-        .pulse-ring {
-            position: absolute;
-            border: 3px solid rgba(255,255,255,0.5);
-            border-radius: 50%;
-            animation: pulseRing 2s ease-out infinite;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            text-align: center;
+            line-height: 1;
             pointer-events: none;
         }
 
-        @keyframes pulseRing {
-            0% {
-                width: 400px;
-                height: 400px;
-                opacity: 1;
-            }
-            100% {
-                width: 600px;
-                height: 600px;
-                opacity: 0;
-            }
-        }
-
-        .sparkle {
+        .title::before {
+            content: 'APRIL FOOLS';
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            animation: sparkleAnim 1.5s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            opacity: 0.5;
+            filter: blur(10px);
+            animation: textGlitch 0.2s infinite;
         }
 
-        @keyframes sparkleAnim {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1.5); }
+        @keyframes textGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* The 3D Image Wrapper */
+        .scene {
+            width: 400px;
+            height: 400px;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out; /* Smooth follow */
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            animation: autoSpin 10s linear infinite;
+        }
+
+        .card:hover .card-inner {
+            animation: crazySpin 2s linear infinite;
+        }
+
+        @keyframes autoSpin {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            100% { transform: rotateY(360deg) rotateX(360deg); }
+        }
+
+        @keyframes crazySpin {
+            0% { transform: rotateY(0deg) rotateX(0deg) scale(1); }
+            25% { transform: rotateY(180deg) rotateX(45deg) scale(1.2); }
+            50% { transform: rotateY(360deg) rotateX(0deg) scale(1); }
+            75% { transform: rotateY(540deg) rotateX(-45deg) scale(1.2); }
+            100% { transform: rotateY(720deg) rotateX(0deg) scale(1); }
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
+            border: 5px solid rgba(255,255,255,0.5);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: #000;
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.2) saturate(1.5);
+        }
+
+        .card-back {
+            background: linear-gradient(45deg, #ff00de, #00ffea);
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Background Grid */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200vw;
+            height: 200vh;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            z-index: 1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-200px); }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            z-index: 2;
+            animation: floatOrb 10s ease-in-out infinite;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -50px); }
         }
 
         .subtitle {
+            margin-top: 50px;
+            color: #fff;
             font-size: 1.5rem;
-            color: white;
-            margin-top: 30px;
-            animation: subtitleBounce 2s ease-in-out infinite;
-            text-align: center;
+            letter-spacing: 2px;
+            animation: shakeText 0.5s infinite;
         }
 
-        @keyframes subtitleBounce {
-            0%, 100% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-10px); opacity: 0.8; }
+        @keyframes shakeText {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+            100% { transform: rotate(0deg); }
         }
 
-        .emoji-rain {
-            position: fixed;
-            font-size: 2rem;
-            animation: emojiDrop 5s linear infinite;
-            z-index: 5;
-        }
-
-        @keyframes emojiDrop {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
     </style>
 </head>
 <body>
-    <!-- Floating Background Shapes -->
-    <div class="floating-shapes" style="width: 200px; height: 200px; background: rgba(255,255,255,0.2); top: 10%; left: 10%;"></div>
-    <div class="floating-shapes" style="width: 150px; height: 150px; background: rgba(255,255,255,0.3); top: 60%; left: 80%; animation-delay: -5s;"></div>
-    <div class="floating-shapes" style="width: 100px; height: 100px; background: rgba(255,255,255,0.25); top: 30%; left: 70%; animation-delay: -10s;"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Background Elements -->
+    <div class="grid-bg"></div>
+    <div class="orb" style="width: 300px; height: 300px; background: #ff00de; top: 10%; left: 20%;"></div>
+    <div class="orb" style="width: 400px; height: 400px; background: #00ffea; bottom: 10%; right: 10%; animation-delay: -5s;"></div>
 
     <div class="container">
-        <h1 class="title">
-            <span class="wave-text">🎭</span>
-            <span class="wave-text" style="animation-delay: 0.1s;">A</span>
-            <span class="wave-text" style="animation-delay: 0.2s;">P</span>
-            <span class="wave-text" style="animation-delay: 0.3s;">R</span>
-            <span class="wave-text" style="animation-delay: 0.4s;">I</span>
-            <span class="wave-text" style="animation-delay: 0.5s;">L</span>
-            <span class="wave-text" style="animation-delay: 0.6s;"> </span>
-            <span class="wave-text" style="animation-delay: 0.7s;">F</span>
-            <span class="wave-text" style="animation-delay: 0.8s;">O</span>
-            <span class="wave-text" style="animation-delay: 0.9s;">O</span>
-            <span class="wave-text" style="animation-delay: 1.0s;">L</span>
-            <span class="wave-text" style="animation-delay: 1.1s;">S</span>
-            <span class="wave-text" style="animation-delay: 1.2s;">!</span>
-            <span class="wave-text" style="animation-delay: 1.3s;">🎉</span>
-        </h1>
+        <h1 class="title">APRIL<br>FOOLS</h1>
 
-        <div class="image-container">
-            <div class="pulse-ring"></div>
-            <div class="flip-image" id="flipImage">
-                <img src="mrbuzzeli.jpg" alt="Mr Buzzeli" id="mainImage">
-                <!-- Sparkles around image -->
-                <div class="sparkle" style="top: -20px; left: 50%;"></div>
-                <div class="sparkle" style="top: 50%; left: -20px; animation-delay: 0.3s;"></div>
-                <div class="sparkle" style="top: 50%; right: -20px; animation-delay: 0.6s;"></div>
-                <div class="sparkle" style="bottom: -20px; left: 50%; animation-delay: 0.9s;"></div>
+        <div class="scene">
+            <div class="card" id="card">
+                <div class="card-inner">
+                    <div class="card-face card-front">
+                        <!-- REPLACE WITH YOUR IMAGE -->
+                        <img src="mrbuzzeli.jpg" alt="Mr Buzzeli">
+                    </div>
+                    <div class="card-face card-back">
+                        GOTCHA!
+                    </div>
+                </div>
             </div>
         </div>
 
-        <p class="subtitle">🎪 Gotcha! You've been pranked! 🎪</p>
+        <p class="subtitle">MOVE YOUR MOUSE TO CHAOS MODE 🌪️</p>
     </div>
 
     <script>
-        // Create Confetti
-        function createConfetti() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#fd79a8', '#a29bfe'];
+        const card = document.getElementById('card');
+        const container = document.querySelector('.container');
+        const cursor = document.getElementById('cursor');
+        const scene = document.querySelector('.scene');
+
+        // 1. Custom Cursor Logic
+        document.addEventListener('mousemove', (e) => {
+            // Move cursor dot
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+
+            // Create Trail
+            createTrail(e.clientX, e.clientY);
+
+            // 3D Tilt Effect based on mouse position
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 20;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
+            
+            // Apply rotation to the card wrapper
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // 2. Mouse Trail Function
+        function createTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.classList.add('trail');
+            document.body.appendChild(trail);
+            
+            // Random color for trail
+            const colors = ['#ff00de', '#00ffea', '#ffff00', '#ffffff'];
+            trail.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            
+            // Random size
+            const size = Math.random() * 20 + 5;
+            trail.style.width = size + 'px';
+            trail.style.height = size + 'px';
+
+            setTimeout(() => {
+                trail.remove();
+            }, 1000);
+        }
+
+        // 3. Click Interaction (Explosion)
+        document.addEventListener('click', (e) => {
+            cursor.classList.add('active');
+            setTimeout(() => cursor.classList.remove('active'), 200);
+
+            // Burst of trails
+            for(let i=0; i<20; i++) {
+                createTrail(e.clientX, e.clientY);
+            }
+
+            // Spin the image wildly on click
+            card.style.transition = 'transform 0.5s';
+            card.style.transform = `rotateY(${Math.random() * 360}deg) rotateX(${Math.random() * 360}deg) scale(1.5)`;
+            
+            setTimeout(() => {
+                card.style.transition = 'transform 0.1s ease-out';
+            }, 500);
+        });
+
+        // 4. Enter/Leave Animations
+        container.addEventListener('mouseenter', () => {
+            card.style.transition = 'none';
+            // Reset animation to allow CSS hover effects to take over smoothly
+        });
+
+        container.addEventListener('mouseleave', () => {
+            card.style.transition = 'transform 0.5s ease';
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
+
+        // 5. Constant Confetti (Simplified for performance)
+        setInterval(() => {
             const confetti = document.createElement('div');
-            confetti.className = 'confetti';
+            confetti.style.position = 'fixed';
             confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            confetti.style.animationDelay = Math.random() * 2 + 's';
+            confetti.style.top = '-10px';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.zIndex = '5';
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
             document.body.appendChild(confetti);
 
-            setTimeout(() => confetti.remove(), 5000);
-        }
+            const fallSpeed = Math.random() * 2 + 1;
+            const drift = Math.random() * 200 - 100;
 
-        // Create Emoji Rain
-        function createEmojiRain() {
-            const emojis = ['🎉', '🎊', '🎭', '😂', '🤡', '🎨', '✨', '🌟'];
-            const emoji = document.createElement('div');
-            emoji.className = 'emoji-rain';
-            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            emoji.style.left = Math.random() * 100 + 'vw';
-            emoji.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(emoji);
+            confetti.animate([
+                { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 1 },
+                { transform: `translateY(100vh) translateX(${drift}px) rotate(720deg)`, opacity: 0 }
+            ], {
+                duration: fallSpeed * 1000,
+                easing: 'linear'
+            }).onfinish = () => confetti.remove();
 
-            setTimeout(() => emoji.remove(), 5000);
-        }
+        }, 50); // Create confetti every 50ms
 
-        // Generate confetti continuously
-        setInterval(createConfetti, 100);
-        setInterval(createEmojiRain, 300);
-
-        // Click interaction for extra fun
-        document.getElementById('flipImage').addEventListener('click', function() {
-            this.style.animation = 'none';
-            this.offsetHeight; // Trigger reflow
-            this.style.animation = 'flipRotate 1s ease-in-out 3, floatImage 1s ease-in-out infinite';
-            
-            // Burst of confetti on click
-            for(let i = 0; i < 30; i++) {
-                setTimeout(createConfetti, i * 50);
-            }
-        });
-
-        // Add more sparkles on mouse move
-        document.addEventListener('mousemove', function(e) {
-            if(Math.random() > 0.9) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                sparkle.style.position = 'fixed';
-                sparkle.style.left = e.clientX + 'px';
-                sparkle.style.top = e.clientY + 'px';
-                sparkle.style.pointerEvents = 'none';
-                document.body.appendChild(sparkle);
-                setTimeout(() => sparkle.remove(), 1500);
-            }
-        });
-
-        // Initial burst
-        for(let i = 0; i < 50; i++) {
-            setTimeout(createConfetti, i * 100);
-        }
     </script>
 </body>
 </html>
